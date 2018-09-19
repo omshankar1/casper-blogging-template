@@ -10,18 +10,18 @@ paginate = 10
 canonifyurls = true
 
 [params]
-  description = "this is my description"
+  description = "Technical Bloggint Site"
   cover = "images/cover.jpg"
-  author = "Valère JEANTET"
-  authorlocation = "Paris, France"
-  authorwebsite = "http://vjeantet.fr"
+  author = "Shankar Nagarajan"
+  authorlocation = "Sydney, Australia"
+  authorwebsite = ""
   bio= "my bio"
   logo = "images/logo.png"
-  googleAnalyticsUserID = "UA-79101-12"
+  # googleAnalyticsUserID = ""
   # Optional RSS-Link, if not provided it defaults to the standard index.xml
-  RSSLink = "http://feeds.feedburner.com/..."
-  githubName = "vjeantet"
-  twitterName = "vjeantet"
+  # RSSLink = ""
+  githubName = "omshankar1"
+  # twitterName = ""
   # facebookName = ""
   # linkedinName = ""
   # set true if you are not proud of using Hugo (true will hide the footer note "Proudly published with HUGO.....")
