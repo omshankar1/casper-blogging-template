@@ -1,8 +1,8 @@
 baseurl = "/"
 languageCode = "en-us"
-title = "Casper Theme"
+title = "Technical Ramblings"
 theme = "hugo-theme-casper"
-disqusShortname = "spf13"
+disqusShortname = "omshankar1"
 # Enable Google Analytics by inserting your tracking code
 googleAnalytics = ""
 # Define how many posts should appear on a site
