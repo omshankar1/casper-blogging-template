@@ -1,12 +1,20 @@
 ---
 date: 2018-09-22T20:04:40.407Z
-title: Bring up an Centos7 on a KVM 
+title: Bring up an Centos7 on a KVM and AWS using cloud-init
 ---
-Bring up an Centos7 on a KVM 
 
-The code can be found in github: https://github.com/omshankar1/Centos7_Cloudconfig
+The code for this blog can be found at github: https://github.com/omshankar1/Centos7_Cloudconfig
+
+The intention is to bring up a Centos7 vm on KVM and AWS using cloudconfig.
+
+Provision Centos7 on KVM
+The requirement is the KVM is installed already. I won't be talking about it in this blog. The piece is sufficielty documented.
+The github repo has a script to create couple of bridges which will be used subsequently in provisioner script. 
+
 Creating linux bridges
-Running the script virbr_network.sh creates 3 linux bridges like so
+Run the script virbr_network.sh to creates 3 linux bridges. 
+Now list the interface using virsh net-list --all
+
 ```console
 shankar@shankar-TP:~/KVM/github/Centos7_Cloudconfig$ virsh net-list --all
  Name                 State      Autostart     Persistent
@@ -80,6 +88,7 @@ To view the cloud-init log
 2018-09-24 03:58:00,613 - handlers.py[DEBUG]: finish: modules-final: SUCCESS: running modules for final
 ```
 
+Provision Centos7 on AWS
 We can use the exact same user-data and embed into CFN like in the script ec2_centos7_cloudconfig.yaml to 
 provision centos7. I have commented out the parts that configures the ip interfaces.
 I would need to indicate in the CFN the private  ip address for the first interface.
