@@ -1,6 +1,6 @@
 ---
-date: 2016-12-22T20:04:40.407Z
-title: First Post
+date: 2018-09-22T20:04:40.407Z
+title: Bring up an Centos7 on a KVM 
 ---
 Bring up an Centos7 on a KVM 
 
