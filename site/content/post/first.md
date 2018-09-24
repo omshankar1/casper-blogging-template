@@ -17,7 +17,7 @@ The code for this blog can be found at github: https://github.com/omshankar1/Cen
 
 Spinning up a Centos7 vm involves couple of steps
 - Creating the Subnets, in this case it would be linux bridges
-- Use the virsh command to spinup the instance
+- virsh command to spinup the instance
 
 ### Creating linux bridges
 The github repo has a script to create couple of bridges which will be used subsequently in provisioner script. 
@@ -46,8 +46,15 @@ shankar@shankar-TP:~/KVM/CENTOS/instance1$ virsh list --all
 
 ### Spinup Centos7 Instance
 
-First step would be to write a user-data that uses a declaritive approach, for instance the configuration of yum packages, 
+First step would be to write a user-data that uses a declaritive approach, for instance the configuration of yum packages, users, hostname etc.
+
 We can use virsh_provisioner.sh to create a Centos7 instance. When the instance comes we should be able to login without any password with user 'shankar' and ip address 192.168.1.14 specified in the user-data.
+
+Unfortunately the Centos7 image comes only with an older version of Cloud config. 
+Ofcourse we can overcome this issue by upgrading the cloud config and then preparing a base image from it. This template could be used as a base template for provisioning other instances.
+
+A sample of the cloudconfig user-data can be found in the github. This could be used as a starting point. 
+
 ```yaml
 #cloud-config
 manage_resolv_conf: true
@@ -67,7 +74,7 @@ users:
       - wheel
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh-authorized-keys:
-      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCVR8MG7WnFVXoaPqyHApTbAC+x7MIt4ChaSihbuZi+CqkuuuszplsV2Px+is6cSrRbGB14uTg3XPPuL33YtKfvYjQTThiCiUz9F1FuUUKXhpNjRbvjfnF/zJFSmGJFOoUPN2gT2JzQfxtA29mFnklMK9iQyk43/X4sZkkRV/HoWPoA/If1+Q92rKB+miKqONwRuEdUOZxXwqva484/9SwvKtEUmemA4OLMVa8JMzbnkZbf+sqDK2GTTtaa3odOj6Z39cI7jf2Z8hrbdEdRZkB92qVINopI4eEqHvtdhGCgxOZ6Q6EAtzQsb2WPDqyJglN63UPy35pkxaXZaaxt/6DV shankar@shankar-TP"
+      - "<ssh-rsa AAAA...>"
 
 packages:
   - yum-utils
@@ -76,6 +83,13 @@ packages:
   - vim-enhanced
 ```
 
+Once we have created user-data and meta-date, time to create the nocloud.iso.
+The command is
+```bash
+genisoimage -output nocloud.iso -volid cidata -joliet -rock user-data meta-data
+```
+
+virsh-install is used to create the Centos7 instance like so. The mac values passed on must be unique within the command and across the hosts as well.
 
 ```bash
 virt-install --os-type linux \
@@ -92,6 +106,8 @@ virt-install --os-type linux \
     --graphics none
 ```
 
+
+Once the instance has come up, login using the user in the user-data.
 
 ```console
 shankar@shankar-TP:~/KVM/CENTOS/instance1$ ssh shankar@192.168.1.14
@@ -117,7 +133,7 @@ Last login: Mon Sep 24 03:37:52 2018 from gateway
        valid_lft forever preferred_lft forever
 ```
 
-If we list all the vms in KVM,
+If we list all the vms in KVM, centos14 would also be listed along with others instances.
 
 ```console
 shankar@shankar-TP:~/KVM/CENTOS/instance1$ virsh list --all
@@ -142,7 +158,7 @@ To view the cloud-init log
 2018-09-24 03:58:00,613 - handlers.py[DEBUG]: finish: modules-final: SUCCESS: running modules for final
 ```
 
-### Provision Centos7 on AWS
+## Provision Centos7 on AWS
 We can use the exact same user-data and embed into CFN like in the script ec2_centos7_cloudconfig.yaml to provision centos7. I have commented out the parts that configures the ip interfaces.
 I would need to indicate in the CFN the private  ip address for the first interface.
 Also, I wouldn need to add an extra interface and attach it to the ec2 instance before I can run the complete user-data part
@@ -168,7 +184,7 @@ Also, I wouldn need to add an extra interface and attach it to the ec2 instance 
                 - wheel
               sudo: ['ALL=(ALL) NOPASSWD:ALL']
               ssh-authorized-keys:
-                - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCVR8MG7WnFVXoaPqyHApTbAC+x7MIt4ChaSihbuZi+CqkuuuszplsV2Px+is6cSrRbGB14uTg3XPPuL33YtKfvYjQTThiCiUz9F1FuUUKXhpNjRbvjfnF/zJFSmGJFOoUPN2gT2JzQfxtA29mFnklMK9iQyk43/X4sZkkRV/HoWPoA/If1+Q92rKB+miKqONwRuEdUOZxXwqva484/9SwvKtEUmemA4OLMVa8JMzbnkZbf+sqDK2GTTtaa3odOj6Z39cI7jf2Z8hrbdEdRZkB92qVINopI4eEqHvtdhGCgxOZ6Q6EAtzQsb2WPDqyJglN63UPy35pkxaXZaaxt/6DV shankar@shankar-TP"
+                - "ssh-rsa AAAAB3Nz..."
 
           packages:
             - yum-utils
