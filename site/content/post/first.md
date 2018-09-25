@@ -6,9 +6,9 @@ title: Centos7 on a KVM and AWS using cloud-init
 # Centos7 on a KVM and AWS using cloud-init
 
 
-The intention is to bring up a Centos7 vm on KVM and AWS using cloudconfig.
+The intention of this blod is to create a sample config files to bring up a Centos7 vm on KVM and AWS using cloud-init. 
 
-The requirement is the KVM is installed already. I won't be talking about installation and the basics of KVM in this blog. This part is sufficielty documented in the internet. 
+The requirement for creating KVM instance is obviously to have KVM and its related packages installed. I won't be talking about installation and the basics of KVM in this blog. This part is sufficielty documented in the internet. 
 This blog is going to focus on a sample user-data which can be used and later modified to
 provision a Centos7 instance.
 The code for this blog can be found at github: https://github.com/omshankar1/Centos7_Cloudconfig
