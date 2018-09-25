@@ -10,7 +10,7 @@ We'll create a VPC and subnets. As we plan to create an ec2 instance with two in
 
 There are two Cloudformation scripts in th github repository vpc.yaml and ec2.yaml. The vpc.yaml which needs to be run first creates the necessary network and exports the vpc and subnet ids. These exported values will be imported in ec2.yaml.
 
-vpc.yaml
+Snippet from vpc.yaml
 ```yaml
 Outputs:
   VPCId:
@@ -30,7 +30,7 @@ Outputs:
       Name: !Sub SubnetPvtA:Id
 ```
 
-ec2.yaml
+Snippet from ec2.yaml
 ```yaml
   DataInterface:
     Type: AWS::EC2::NetworkInterface
@@ -65,10 +65,43 @@ This snippet of cloudformation ensures that both SubnetPubA and SubnetPvtA are w
         - 0
         - Fn::GetAZs: !Ref 'AWS::Region'
 ```
+
+We need two interfaces each created on the above subnets. These two interfaces would need to be associated with the ec2 instance.
+
+Snippet from ec2.yaml
+```yaml
+  DataInterface:
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+      Tags:
+        - Key: Name
+          Value: DataInterface
+      PrivateIpAddress: 10.1.2.100
+      SubnetId: !ImportValue 'SubnetPvtA:Id'
+  
+  DataInterfaceAttachment:
+    Type: AWS::EC2::NetworkInterfaceAttachment
+    Properties:
+      InstanceId: !Ref EC2Instance
+      DeviceIndex: "1"
+      NetworkInterfaceId: !Ref DataInterface
+
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      KeyName: !Ref keyName
+      ImageId: !Ref ImageId
+      InstanceType: t2.nano
+      SubnetId: !ImportValue 'SubnetPubA:Id'
+      PrivateIpAddress: 10.1.1.100
+      Monitoring: false
+      # SecurityGroups:
+      SecurityGroupIds:
+        - Ref: AdminSecGrp
+```
+
 ## Provision Centos7 on AWS
-We can use the exact same user-data and embed into CFN like in the script ec2_centos7_cloudconfig.yaml to provision centos7. I have commented out the parts that configures the ip interfaces.
-I would need to indicate in the CFN the private  ip address for the first interface.
-Also, I wouldn need to add an extra interface and attach it to the ec2 instance before I can run the complete user-data part
+We can use the exact same user-data and embed into CFN ec2.yaml.
 
 ```yaml
       UserData: 
