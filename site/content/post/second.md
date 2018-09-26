@@ -10,6 +10,8 @@ In the last blog we saw how to create a Centos7 instance on KVM. In this blog we
 
 ### Getting the list of available amis in the defined region(its sydney in this case)
 
+Please refer to  https://wiki.centos.org/Cloud/AWS
+
 ```console
 ❯ aws ec2 describe-images --owners aws-marketplace --filters Name=product-code,Values=aw0evgkw8e5c1q413zgy5pjce | grep ImageLocation
 
