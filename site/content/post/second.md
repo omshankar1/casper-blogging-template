@@ -1,9 +1,9 @@
 ---
 date: 2018-09-22:24:16-04:00
-title: Centos7 on a AWS using cloud-init
+title: Centos7 on a AWS using cloud-init and Cloudformation
 ---
 
-## Centos7 on a AWS using cloud-init
+## Centos7 on a AWS using cloud-init and Cloudformation
 
 In the last blog we saw how to create a Centos7 instance on KVM. In this blog we'll have a look at ways to create a sample config files to bring up a Centos7 vm on AWS using the exact same cloud-init. 
 
