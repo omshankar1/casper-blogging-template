@@ -3,8 +3,6 @@ date: 2018-09-22:24:16-04:00
 title: Centos7 on a AWS using cloud-init and Cloudformation
 ---
 
-## Centos7 on a AWS using cloud-init and Cloudformation
-
 In the last blog we saw how to create a Centos7 instance on KVM. In this blog we'll have a look at ways to create a sample config files to bring up a Centos7 vm on AWS using the exact same cloud-init. 
 
 
@@ -28,6 +26,7 @@ Please refer to  https://wiki.centos.org/Cloud/AWS
 We'll create a VPC and subnets. As we plan to create an ec2 instance with two interfaces, with each on a different Subnet, they need to be within same AZ. In this case we'll be using only SubnetPubA and SubnetPvtA.
 
 There are two Cloudformation scripts in th github repository vpc.yaml and ec2.yaml. The vpc.yaml which needs to be run first creates the necessary network and exports the vpc and subnet ids. These exported values will be imported in ec2.yaml.
+
 Snippet from vpc.yaml
 ```yaml
 Outputs:

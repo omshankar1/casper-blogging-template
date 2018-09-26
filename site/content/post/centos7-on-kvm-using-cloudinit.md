@@ -3,10 +3,7 @@ date: 2018-09-22T20:04:40.407Z
 title: Centos7 on a KVM using cloud-init
 ---
 
-# Centos7 on a KVM using cloud-init
-
-
-The intention of this blod is to create a sample config files to bring up a Centos7 vm on KVM using cloud-init. 
+The intention of this blog is to create a sample config files to bring up a Centos7 vm on KVM using cloud-init. 
 
 The requirement for creating KVM instance is obviously to have KVM and its related packages installed. I won't be talking about installation and the basics of KVM in this blog. This part is sufficielty documented in the internet. 
 This blog is going to focus on a sample user-data which can be used and later modified to
