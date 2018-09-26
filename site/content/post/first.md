@@ -1,12 +1,12 @@
 ---
 date: 2018-09-22T20:04:40.407Z
-title: Centos7 on a KVM and AWS using cloud-init
+title: Centos7 on a KVM using cloud-init
 ---
 
-# Centos7 on a KVM and AWS using cloud-init
+# Centos7 on a KVM using cloud-init
 
 
-The intention of this blod is to create a sample config files to bring up a Centos7 vm on KVM and AWS using cloud-init. 
+The intention of this blod is to create a sample config files to bring up a Centos7 vm on KVM using cloud-init. 
 
 The requirement for creating KVM instance is obviously to have KVM and its related packages installed. I won't be talking about installation and the basics of KVM in this blog. This part is sufficielty documented in the internet. 
 This blog is going to focus on a sample user-data which can be used and later modified to
@@ -53,7 +53,12 @@ We can use virsh_provisioner.sh to create a Centos7 instance. When the instance 
 Unfortunately the Centos7 image comes only with an older version of Cloud config. 
 Ofcourse we can overcome this issue by upgrading the cloud config and then preparing a base image from it. This template could be used as a base template for provisioning other instances.
 
-A sample of the cloudconfig user-data can be found in the github. This could be used as a starting point. 
+A sample of the cloudconfig user-data can be found in the github. This could be used as a starting point. Please ensure to replace ssh-authorized-keys with proper ssh keys.
+
+```yaml
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+```
+The sudo line gives permission for user, in thie case 'shankar' to access files under root, like /var/log/cloud-init.log
 
 ```yaml
 #cloud-config
@@ -156,39 +161,4 @@ To view the cloud-init log
 2018-09-24 03:58:00,613 - util.py[DEBUG]: Read 14 bytes from /proc/uptime
 2018-09-24 03:58:00,613 - util.py[DEBUG]: cloud-init mode 'modules' took 4.405 seconds (4.41)
 2018-09-24 03:58:00,613 - handlers.py[DEBUG]: finish: modules-final: SUCCESS: running modules for final
-```
-
-## Provision Centos7 on AWS
-We can use the exact same user-data and embed into CFN like in the script ec2_centos7_cloudconfig.yaml to provision centos7. I have commented out the parts that configures the ip interfaces.
-I would need to indicate in the CFN the private  ip address for the first interface.
-Also, I wouldn need to add an extra interface and attach it to the ec2 instance before I can run the complete user-data part
-
-```yaml
-      UserData: 
-        Fn::Base64: !Sub |
-          #cloud-config
-          manage_resolv_conf: true
-          resolv_conf:
-            nameservers: ['8.8.4.4', '8.8.8.8']
-
-          network: {config: disabled}
-          # Hostname management
-          preserve_hostname: False
-          hostname: centos7-test14
-          fqdn: centos7-test14
-
-          users:
-            - name: "shankar"
-              groups:
-                - sudo
-                - wheel
-              sudo: ['ALL=(ALL) NOPASSWD:ALL']
-              ssh-authorized-keys:
-                - "ssh-rsa AAAAB3Nz..."
-
-          packages:
-            - yum-utils
-            - wget
-            - git
-            - vim-enhanced
 ```
