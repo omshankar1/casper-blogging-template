@@ -7,11 +7,25 @@ title: Centos7 on a AWS using cloud-init and Cloudformation
 
 In the last blog we saw how to create a Centos7 instance on KVM. In this blog we'll have a look at ways to create a sample config files to bring up a Centos7 vm on AWS using the exact same cloud-init. 
 
+
+### Getting the list of available amis in the defined region(its sydney in this case)
+
+```console
+❯ aws ec2 describe-images --owners aws-marketplace --filters Name=product-code,Values=aw0evgkw8e5c1q413zgy5pjce | grep ImageLocation
+
+            "ImageLocation": "aws-marketplace/CentOS Linux 7 x86_64 HVM EBS ENA 1804_2-b7ee8a69-ee97-4a49-9e68-afaee216db2e-ami-55a2322a.4",
+            "ImageLocation": "aws-marketplace/CentOS Linux 7 x86_64 HVM EBS 1704_01-b7ee8a69-ee97-4a49-9e68-afaee216db2e-ami-d52f5bc3.4",
+            "ImageLocation": "aws-marketplace/CentOS Linux 7 x86_64 HVM EBS 1708_11.01-b7ee8a69-ee97-4a49-9e68-afaee216db2e-ami-95096eef.4",
+            "ImageLocation": "aws-marketplace/CentOS Linux 7 x86_64 HVM EBS 1801_01-b7ee8a69-ee97-4a49-9e68-afaee216db2e-ami-0a537770.4",
+            "ImageLocation": "aws-marketplace/CentOS Linux 7 x86_64 HVM EBS ENA 1805_01-b7ee8a69-ee97-4a49-9e68-afaee216db2e-ami-77ec9308.4",
+            "ImageLocation": "aws-marketplace/CentOS Linux 7 x86_64 HVM EBS ENA 1803_01-b7ee8a69-ee97-4a49-9e68-afaee216db2e-ami-8274d6ff.4",
+            "ImageLocation": "aws-marketplace/CentOS Linux 7 x86_64 HVM EBS 1708_01-b7ee8a69-ee97-4a49-9e68-afaee216db2e-ami-0d8f9576.4",
+            "ImageLocation": "aws-marketplace/CentOS Linux 7 x86_64 HVM EBS 1602-b7ee8a69-ee97-4a49-9e68-afaee216db2e-ami-d7e1d2bd.3",
+```
+
 We'll create a VPC and subnets. As we plan to create an ec2 instance with two interfaces, with each on a different Subnet, they need to be within same AZ. In this case we'll be using only SubnetPubA and SubnetPvtA.
 
 There are two Cloudformation scripts in th github repository vpc.yaml and ec2.yaml. The vpc.yaml which needs to be run first creates the necessary network and exports the vpc and subnet ids. These exported values will be imported in ec2.yaml.
-
-
 Snippet from vpc.yaml
 ```yaml
 Outputs:
