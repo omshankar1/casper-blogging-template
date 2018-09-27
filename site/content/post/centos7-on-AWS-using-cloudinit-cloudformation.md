@@ -1,5 +1,5 @@
 ---
-date: 2018-09-22:24:16-04:00
+date: 2018-09-22T20:04:40.407Z
 title: Centos7 on a AWS using cloud-init and Cloudformation
 ---
 
