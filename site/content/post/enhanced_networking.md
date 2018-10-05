@@ -5,6 +5,4 @@ title: Enhanced networking performance tests
 
 ## Screen shot test
 
-<img class="special-img-class" src="/enhanced_networking/t3-nano-iperf3.png" />
 <img class="special-img-class" src="/images/enhanced_networking/t3-nano-iperf3.png" />
-<img class="special-img-class" src="../../static/images/enhanced_networking/t3-nano-iperf3.png" />
