@@ -4,7 +4,7 @@ title: Enhanced networking performance tests
 ---
 
 
-<img class="special-img-class" src="/images/enhanced_networking/CentOS7_1805_1.jpg.jpg" />
+<img class="special-img-class" src="/images/enhanced_networking/CentOS7_1805_1.jpg" />
 <img class="special-img-class" src="/images/enhanced_networking/t2-t3-enasupport.jpg" />
 <img class="special-img-class" src="/images/enhanced_networking/t3-nano-iperf3.jpg" />
 <img class="special-img-class" src="/images/enhanced_networking/t2-nano-iperf3.jpg" />
