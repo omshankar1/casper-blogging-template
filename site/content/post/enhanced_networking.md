@@ -1,9 +1,11 @@
 ---
 date: 2018-09-22T20:04:40.407Z
-title: T3 vs T2 comparison
+title: T3 vs T2 ec2 instance comparison
 ---
 
-This blog does a simple and naivee performance comparison to establish my opinionated view on
+## T2 vs T3
+
+This blog does a simple and naive performance comparison to establish my opinionated view on
 slowly gravitating towards Nitro(KVM) based hypervisors from XEN based hypervisors.
 There are lot of videos on youtube describing about Nitro by AWS. There is excellent article by Brenden Gregg http://brendangregg.com/blog/2017-11-29/aws-ec2-virtualization-2017.html looking at the evolution of hypervisors used by AWS.
 
@@ -22,7 +24,7 @@ First, lets spinup a pair of ec2 instances, a t2 and a t3 just for knowing the h
 
 <img class="special-img-class" src="/images/enhanced_networking/t2-t3-enasupport.jpg" />
 
-Now, lets start the test with running 2 t3.nano instances and comparing the network speed using iperf3. The test results are depicted below in the screenshot
+Now, lets start the test running 2 t3.nano instances and comparing the network speed using iperf3. The test results are depicted below in the screenshot
 <img class="special-img-class" src="/images/enhanced_networking/t3-nano-iperf3.jpg" />
 
 Running the test with 2 t2.nano instances results in far lower network throughput, by about a magnitude less.
