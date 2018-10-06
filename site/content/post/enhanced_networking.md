@@ -1,9 +1,9 @@
 ---
 date: 2018-09-22T20:04:40.407Z
-title: T3 vs T2 ec2 instance comparison
+title: T3 vs T2 instance comparison
 ---
 
-## T2 vs T3
+### T2 vs T3
 
 This blog does a simple and naive performance comparison to establish my opinionated view on
 slowly gravitating towards Nitro(KVM) based hypervisors from XEN based hypervisors.
